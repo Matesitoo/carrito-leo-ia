@@ -1,11 +1,8 @@
 from fastapi import FastAPI
-from routes.clientRouter import router as client_router
-from routes.pedidoRouter import router as pedido_router
-from routes.productoRouter import router as producto_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
-    title="API Simple Supabase",
+    title="API Carrito Leo",
     description="API para gestión de clientes, productos y pedidos",
     version="1.0.0"
 )
@@ -19,26 +16,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Incluir routers
-app.include_router(client_router, prefix="/api", tags=["Clientes"])
-app.include_router(pedido_router, prefix="/api", tags=["Pedidos"])
-app.include_router(producto_router, prefix="/api", tags=["Productos"])
-
 @app.get("/")
 async def root():
     return {
         "message": "API funcionando correctamente", 
-        "docs": "/docs",
-        "endpoints": {
-            "clientes": "/api/obtener_clientes",
-            "productos": "/api/obtener_productos",
-            "pedidos": "/api/obtener_pedidos"
-        }
+        "status": "active",
+        "docs": "/docs"
     }
 
 @app.get("/health")
 async def health_check():
     return {"status": "healthy", "message": "API is running"}
 
-# Para Vercel
-app = app
+@app.get("/test")
+async def test():
+    return {"message": "Test endpoint working"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
