@@ -9,12 +9,14 @@ class ConexionManagerSupabase:
     
     def __init__(self):
         if ConexionManagerSupabase._instance is not None:
-            raise Exception("Esta clase es un Singleton")
+            raise Exception("Esta clase es un Singleton!")
         else:
             self.url = os.getenv('SUPABASE_URL')
             self.key = os.getenv('SUPABASE_KEY')
             if not self.url or not self.key:
                 raise Exception("Faltan variables de entorno SUPABASE_URL o SUPABASE_KEY")
+            
+            # Configuración simplificada para evitar el error 'proxy'
             self.client: Client = create_client(self.url, self.key)
             ConexionManagerSupabase._instance = self
     

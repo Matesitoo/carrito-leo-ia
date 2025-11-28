@@ -1,3 +1,4 @@
 from main import app
 
-handler = app
+def handler(request, context):
+    return app(request, context)
